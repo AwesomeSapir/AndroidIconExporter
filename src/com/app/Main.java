@@ -31,7 +31,6 @@ public class Main {
 
         // writes to output file
         ImageIO.write(outputImage, formatName, new File(outputImagePath));
-        ImageIO.write(outputImage, formatName, new File(outputImagePath));
     }
 
     public static void main(String[] args) {
@@ -45,20 +44,22 @@ public class Main {
         window.setVisible(true);
         window.setAlwaysOnTop(true);
         window.setBounds(new Rectangle(width/2,height/2));
-
-        final String outputFolder = Paths.get("").toAbsolutePath().toString()+"\\image.png";
-        System.out.println("OUTPUT "+outputFolder);
+        window.setResizable(false);
 
         new File(Paths.get("").toAbsolutePath().toString()+"\\res").mkdir();
 
         new FileDrop(content, new FileDrop.Listener(){
             @Override
             public void filesDropped(File[] files) {
-                files[0].getAbsolutePath();
+                String[] ress={"mipmap-ldpi","mipmap-mdpi","mipmap-hdpi","mipmap-xhdpi","mipmap-xxhdpi","mipmap-xxxhdpi"};
+                int[] sizes={36,48,72,96,144,192};
+                String outputFolder=Paths.get("").toAbsolutePath().toString()+"\\res\\";
                 try {
                     System.out.println("INPUT "+files[0].getAbsolutePath());
-                    resize(files[0],outputFolder,512,512);
-
+                    for (int i=0;i<6;i++){
+                        new File(outputFolder+ress[i]).mkdir();
+                        resize(files[0],outputFolder+ress[i]+"\\"+"ic_launcher.png",sizes[i],sizes[i]);
+                    }
                 } catch (Exception e){
                     e.printStackTrace();
                 }
