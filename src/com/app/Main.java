@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -19,12 +20,13 @@ public class Main {
         BufferedImage inputImage = ImageIO.read(inputFile);
 
         // creates output image
-        BufferedImage outputImage = new BufferedImage(scaledWidth, scaledHeight, inputImage.getType());
+        //BufferedImage outputImage = new BufferedImage(scaledWidth, scaledHeight, inputImage.getType());
+        BufferedImage outputImage=Scalr.resize(inputImage, Scalr.Method.ULTRA_QUALITY,scaledWidth, Scalr.OP_ANTIALIAS);
 
         // scales the input image to the output image
-        Graphics2D g2d = outputImage.createGraphics();
-        g2d.drawImage(inputImage, 0, 0, scaledWidth, scaledHeight, null);
-        g2d.dispose();
+        //Graphics2D g2d = outputImage.createGraphics();
+        //g2d.drawImage(inputImage, 0, 0, scaledWidth, scaledHeight, null);
+        //g2d.dispose();
 
         // extracts extension of output file
         String formatName = outputImagePath.substring(outputImagePath.lastIndexOf(".") + 1);
@@ -45,6 +47,12 @@ public class Main {
         window.setAlwaysOnTop(true);
         window.setBounds(new Rectangle(width/2,height/2));
         window.setResizable(false);
+
+        JLabel text=new JLabel();
+        text.setVisible(true);
+        text.setBounds(new Rectangle(content.getWidth(),content.getHeight()));
+        text.setText("Drag and drop image here");
+        content.add(text);
 
         new File(Paths.get("").toAbsolutePath().toString()+"\\res").mkdir();
 
